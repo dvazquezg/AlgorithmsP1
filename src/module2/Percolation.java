@@ -4,10 +4,13 @@ import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-    private double[][] grid;
-    private int n;
+    private final double[][] grid;
+    private final int n;
+    private final int size;
+    private final int topVirtualSiteNum;
+    private final int bottomVirtualSiteNum;
     private int openSites;
-    private WeightedQuickUnionUF wUnionFind;
+    private final WeightedQuickUnionUF wUnionFind;
 
     // creates n-by-n grid, with all sites initially blocked
     public Percolation(int n) {
@@ -16,9 +19,12 @@ public class Percolation {
         }
 
         this.grid = new double[n][n];
-        this.wUnionFind = new WeightedQuickUnionUF(n * n + 2); // include two virtual sites
         this.n = n;
+        this.size = n * n;
+        this.topVirtualSiteNum = 0;
+        this.bottomVirtualSiteNum = this.size + 1;
         this.openSites = 0;
+        this.wUnionFind = new WeightedQuickUnionUF(this.size + 2); // include two virtual sites
 
         // initialize all sites to be blocked
         for (int row = 0; row < n; row++) {
@@ -41,14 +47,14 @@ public class Percolation {
 
         // connect to adjacent open-top site (or virtual top site 0)
         if (row - 1 == 0) {
-            this.wUnionFind.union(siteNum, 0);
+            this.wUnionFind.union(siteNum, this.topVirtualSiteNum);
         } else if (this.grid[row - 2][col - 1] == 1) {
             this.wUnionFind.union(siteNum, siteNum - this.n);
         }
 
-        // connect to adjacent open-bottom site (or virtual bottom site n * n + 1)
+        // connect to adjacent open-bottom site (or virtual bottom site this.size + 1)
         if (row + 1 > this.n) {
-            this.wUnionFind.union(siteNum, this.n * this.n + 1);
+            this.wUnionFind.union(siteNum, this.bottomVirtualSiteNum);
         } else if (this.grid[row][col - 1] == 1) {
             this.wUnionFind.union(siteNum, siteNum + this.n);
         }
@@ -69,7 +75,7 @@ public class Percolation {
         if (row < 1 || col < 1 || row > this.n || col > this.n) {
             throw new IllegalArgumentException();
         }
-        return grid[row - 1][col - 1] == 1;
+        return grid[row - 1][col - 1] != 0;
     }
 
     // is the site (row, col) full?
@@ -78,7 +84,7 @@ public class Percolation {
             throw new IllegalArgumentException();
         }
         int siteNum = coordinateToNum(row, col);
-        return this.wUnionFind.find(siteNum) == this.wUnionFind.find(0);
+        return this.wUnionFind.find(siteNum) == this.wUnionFind.find(this.topVirtualSiteNum);
     }
 
     // returns the number of open sites
@@ -88,8 +94,8 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        // check if virtual sites 0 and n * n + 1 are connected (have the same parent)
-        return this.wUnionFind.find(0) == this.wUnionFind.find(this.n * this.n + 1);
+        // check if virtual sites 0 and this.size + 1 are connected (have the same parent)
+        return this.wUnionFind.find(0) == this.wUnionFind.find(this.size + 1);
     }
 
     private int coordinateToNum(int row, int col) {
@@ -102,6 +108,7 @@ public class Percolation {
         StdOut.println("Percolates? " + percolation.percolates());
 
         percolation.open(1, 6);
+        StdOut.println("Is (1, 6) open? " + percolation.isOpen(1, 6));
         StdOut.println("Is (1, 6) full? " + percolation.isFull(1, 6));
         percolation.open(2, 6);
         StdOut.println("Is (2, 6) full? " + percolation.isFull(2, 6));
@@ -138,11 +145,9 @@ public class Percolation {
         percolation.open(5, 4);
         StdOut.println("Is (5, 4) full? " + percolation.isFull(5, 4));
 
-
-        StdOut.println("Percolates after opening? " + percolation.percolates());
-        StdOut.println("Is full? " + percolation.isFull(5, 5));
-
         StdOut.println("Number of open sites: " + percolation.numberOfOpenSites());
+
+        StdOut.println("Percolates: " + percolation.percolates());
         for (int row = 0; row < percolation.n; row++) {
             for (int col = 0; col < percolation.n; col++) {
                 StdOut.print(percolation.grid[row][col] + " | ");

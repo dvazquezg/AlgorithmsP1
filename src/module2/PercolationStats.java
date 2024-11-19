@@ -5,12 +5,11 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-
-    Percolation percolation;
-    double mean;
-    double stddev;
-    double confidenceLo;
-    double confidenceHi;
+    private Percolation percolation;
+    private double mean;
+    private double stddev;
+    private double confidenceLo;
+    private double confidenceHi;
 
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials) {

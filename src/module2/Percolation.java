@@ -4,10 +4,10 @@ import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-    double[][] grid;
-    int n;
-    int openSites;
-    WeightedQuickUnionUF wUnionFind;
+    private double[][] grid;
+    private int n;
+    private int openSites;
+    private WeightedQuickUnionUF wUnionFind;
 
     // creates n-by-n grid, with all sites initially blocked
     public Percolation(int n) {

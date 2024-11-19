@@ -5,7 +5,6 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    private double CONFIDENCE_95 = 1.96;
     private Percolation percolation;
     private double mean;
     private double stddev;
@@ -30,6 +29,7 @@ public class PercolationStats {
         }
         this.mean = StdStats.mean(percolationThresholds);
         this.stddev = StdStats.stddev(percolationThresholds);
+        double CONFIDENCE_95 = 1.96;
         this.confidenceLo = this.mean - (CONFIDENCE_95 * this.stddev / Math.sqrt(trials));
         this.confidenceHi = this.mean + (CONFIDENCE_95 * this.stddev / Math.sqrt(trials));
     }

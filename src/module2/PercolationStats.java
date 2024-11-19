@@ -16,10 +16,10 @@ public class PercolationStats {
         if (n < 0 || trials < 0) {
             throw new IllegalArgumentException();
         }
-
-        percolation = new Percolation(n);
+        
         double[] percolationThresholds = new double[trials];
         for (int t = 0; t < trials; t++) {
+            percolation = new Percolation(n);
             while (!percolation.percolates()) {
                 int row = StdRandom.uniformInt(n) + 1;
                 int col = StdRandom.uniformInt(n) + 1;
@@ -60,9 +60,9 @@ public class PercolationStats {
         int trials = Integer.parseInt(args[1]);
 
         PercolationStats percolationStats = new PercolationStats(n, trials);
-        StdOut.println("Mean: " + percolationStats.mean());
-        StdOut.println("Stddev: " + percolationStats.stddev());
-        StdOut.println("95% confidence interval [" + percolationStats.confidenceLo() +
+        StdOut.println("mean = " + percolationStats.mean());
+        StdOut.println("stddev = " + percolationStats.stddev());
+        StdOut.println("95% confidence interval = [" + percolationStats.confidenceLo() +
                 ", " + percolationStats.confidenceHi() + "]");
     }
 }

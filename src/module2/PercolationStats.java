@@ -5,7 +5,6 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    private Percolation percolation;
     private double mean;
     private double stddev;
     private double confidenceLo;
@@ -13,13 +12,13 @@ public class PercolationStats {
 
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials) {
-        if (n < 0 || trials < 0) {
+        if (n <= 0 || trials <= 0) {
             throw new IllegalArgumentException();
         }
-        
+
         double[] percolationThresholds = new double[trials];
         for (int t = 0; t < trials; t++) {
-            percolation = new Percolation(n);
+            Percolation percolation = new Percolation(n);
             while (!percolation.percolates()) {
                 int row = StdRandom.uniformInt(n) + 1;
                 int col = StdRandom.uniformInt(n) + 1;

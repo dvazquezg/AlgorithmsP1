@@ -1,4 +1,5 @@
-</p><h2>ASSESSMENT SUMMARY</h2>
+</p><h2>ASSIGNMENT 2 - PERCOLATION</h2>
+</p><h3>ASSESSMENT SUMMARY</h3>
 <pre>
 Compilation:  <font color="#009900">PASSED</font>
 API:          <font color="#009900">PASSED</font>

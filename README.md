@@ -1,17 +1,18 @@
-===> MODULE 2: PERCOLATION<br>
-ASSESSMENT SUMMARY
+</p><h2>ASSESSMENT SUMMARY</h2>
+<pre>
+Compilation:  <font color="#009900">PASSED</font>
+API:          <font color="#009900">PASSED</font>
 
-Compilation:  PASSED<br>
-API:          PASSED<br>
-SpotBugs:     PASSED<br>
+SpotBugs:     <font color="#009900">PASSED</font>
+PMD:          <font color="#009900">PASSED</font>
+Checkstyle:   <font color="#009900">PASSED</font>
 
-PMD:          PASSED<br>
-Checkstyle:   PASSED<br>
+Correctness:  <font color="#009900">38/38 tests passed</font>
+Memory:       <font color="#009900">8/8 tests passed</font>
+Timing:       <font color="#109900">18/20 tests passed</font>
 
+Aggregate score: 98.00%
+[ Compilation: 5%, API: 5%, Style: 0%, Correctness: 60%, Timing: 10%, Memory: 20% ]
+</pre>
 
-Correctness:  34/38 tests passed<br>
-Memory:       8/8 tests passed<br>
-Timing:       20/20 tests passed<br>
-
-
-Backwash is not addressed in this solution, thus 4 test fail.
+<br><br>

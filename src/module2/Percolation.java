@@ -11,6 +11,7 @@ public class Percolation {
     private final int bottomVirtualSiteNum;
     private int openSites;
     private final WeightedQuickUnionUF wUnionFind;
+    private final WeightedQuickUnionUF wUnionFindFull;
 
     // creates n-by-n grid, with all sites initially blocked
     public Percolation(int n) {
@@ -25,13 +26,7 @@ public class Percolation {
         this.bottomVirtualSiteNum = this.size + 1;
         this.openSites = 0;
         this.wUnionFind = new WeightedQuickUnionUF(this.size + 2); // include two virtual sites
-
-        // initialize all sites to be blocked
-        for (int row = 0; row < n; row++) {
-            for (int col = 0; col < n; col++) {
-                this.grid[row][col] = 0; // blocked site
-            }
-        }
+        wUnionFindFull = new WeightedQuickUnionUF(this.size + 1); // include top virtual site only
     }
 
     // opens the site (row, col) if it is not open already
@@ -48,12 +43,10 @@ public class Percolation {
         // connect to adjacent open-top site (or virtual top site 0)
         if (row - 1 == 0) {
             this.wUnionFind.union(siteNum, this.topVirtualSiteNum);
-            fill(row, col); // fill site by default if connected to top site
+            this.wUnionFindFull.union(siteNum, this.topVirtualSiteNum);
         } else if (this.grid[row - 2][col - 1] > 0) {
             this.wUnionFind.union(siteNum, siteNum - this.n);
-            if (this.grid[row - 2][col - 1] == 2) {
-                fill(row, col);
-            }
+            this.wUnionFindFull.union(siteNum, siteNum - this.n);
         }
 
         // connect to adjacent open-bottom site (or virtual bottom site this.size + 1)
@@ -61,38 +54,20 @@ public class Percolation {
             this.wUnionFind.union(siteNum, this.bottomVirtualSiteNum);
         } else if (this.grid[row][col - 1] > 0) {
             this.wUnionFind.union(siteNum, siteNum + this.n);
-            if (this.grid[row][col - 1] == 2) {
-                fill(row, col);
-            }
+            this.wUnionFindFull.union(siteNum, siteNum + this.n);
         }
 
         // connect to adjacent open-left site
         if (col - 1 > 0 && this.grid[row - 1][col - 2] > 0) {
             this.wUnionFind.union(siteNum, siteNum - 1);
-            if (this.grid[row - 1][col - 2] == 2) {
-                fill(row, col);
-            }
+            this.wUnionFindFull.union(siteNum, siteNum - 1);
         }
 
         // connect to adjacent open-right site
         if (col + 1 <= this.n && this.grid[row - 1][col] > 0) {
             this.wUnionFind.union(siteNum, siteNum + 1);
-            if (this.grid[row - 1][col] == 2) {
-                fill(row, col);
-            }
+            this.wUnionFindFull.union(siteNum, siteNum + 1);
         }
-    }
-
-    private void fill(int row, int col) {
-        if (row < 1 || col < 1 || row > this.n || col > this.n) return;
-        if (this.grid[row - 1][col - 1] != 1) return;
-        // fill current site
-        this.grid[row - 1][col - 1] = 2;
-        // fill any adjacent open sites
-        fill(row - 1, col);
-        fill(row + 1, col);
-        fill(row, col - 1);
-        fill(row, col + 1);
     }
 
     // is the site (row, col) open?
@@ -108,7 +83,9 @@ public class Percolation {
         if (row < 1 || col < 1 || row > this.n || col > this.n) {
             throw new IllegalArgumentException();
         }
-        return this.grid[row - 1][col - 1] == 2;
+        int siteNum = coordinateToNum(row, col);
+        // check if virtual sites 0 and siteNum are connected (have the same parent)
+        return this.wUnionFindFull.find(0) == this.wUnionFindFull.find(siteNum);
     }
 
     // returns the number of open sites
@@ -168,7 +145,7 @@ public class Percolation {
         percolation.open(8, 1);
 
         StdOut.println("Is (2, 5) open? " + percolation.isOpen(2, 5));
-        StdOut.println("Is (2, 5) full? " + percolation.isFull(2, 5));
+        StdOut.println("Is (8, 1) full? " + percolation.isFull(8, 1));
         StdOut.println("Number of open sites: " + percolation.numberOfOpenSites());
 
         StdOut.println("Percolates: " + percolation.percolates());

@@ -111,19 +111,19 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private class RandomizedQueueIterator implements Iterator<Item>
     {
-        private final Node head;
         private int remaining;
-        private final int[] shuffledIndices;
+        private final Item[] shuffledItems;
 
         public RandomizedQueueIterator() {
-            shuffledIndices = new int[size];
-            head = first;
+            shuffledItems = (Item[]) new Object[size];
+            Node current = first;
             remaining = size;
-
-            for (int i = 0; i < size; i++) {
-                shuffledIndices[i] = i + 1; // Fill with original indices
+            int i = 0;
+            while (current != null) {
+                shuffledItems[i++] = current.item;
+                current = current.next;
             }
-            StdRandom.shuffle(shuffledIndices);
+            StdRandom.shuffle(shuffledItems, 0, size);
         }
 
         public boolean hasNext() {
@@ -138,15 +138,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            int targetIndex = shuffledIndices[--remaining]; // Get a random shuffled index
-            int currIndex = 1;
-            Node current = head;
-            while (currIndex < targetIndex) {
-                currIndex++;
-                current = current.next;
-            }
-            return current.item;
-
+            return shuffledItems[--remaining];
         }
     }
 

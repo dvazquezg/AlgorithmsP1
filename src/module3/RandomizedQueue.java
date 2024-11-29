@@ -159,7 +159,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         StdOut.println();
 
         StdOut.println("Randomized iterator");
-        for(String str : randomizedQueue) {
+        for (String str : randomizedQueue) {
             StdOut.print(str + " ");
         }
         StdOut.println();

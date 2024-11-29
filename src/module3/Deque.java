@@ -135,7 +135,7 @@ public class Deque<Item> implements Iterable<Item> {
         deque.addLast("3");
         StdOut.println("Size: " + deque.size());
 
-        for(String str : deque) {
+        for (String str : deque) {
             StdOut.print(str + " ");
         }
         StdOut.println();
@@ -146,7 +146,7 @@ public class Deque<Item> implements Iterable<Item> {
 
         StdOut.println("Size: " + deque.size());
 
-        for(String str : deque) {
+        for (String str : deque) {
             StdOut.print(str + " ");
         }
 
@@ -167,7 +167,7 @@ public class Deque<Item> implements Iterable<Item> {
         deque.addLast("3");
         StdOut.println("Size: " + deque.size());
 
-        for(String str : deque) {
+        for (String str : deque) {
             StdOut.print(str + " ");
         }
     }
